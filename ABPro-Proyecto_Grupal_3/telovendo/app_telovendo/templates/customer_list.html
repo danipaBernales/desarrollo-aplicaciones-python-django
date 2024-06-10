@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="fondo-custom">
+    <h1 class="display-4 titulo-custom">Usuarios Registrados</h1>
+    <ul>
+        {% for customer in customers %}
+            <li>
+                <strong>{{ customer.name }} {{ customer.last_name }}</strong><br>
+                Email: {{ customer.email }}<br>
+                Address: {{ customer.address }}<br>
+                Phone: {{ customer.phone_number }}<br>
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
