@@ -20,6 +20,6 @@ from app_telovendo.views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('app_telovendo.urls')),   
-    path('',home)
+    path('app_telovendo/', include('app_telovendo.urls')),   
+    path('home', home, name='home'),
 ]
