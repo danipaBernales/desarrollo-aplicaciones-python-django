@@ -1,0 +1,69 @@
+Los métodos GET y POST son dos de los métodos HTTP más utilizados para enviar datos entre un cliente (generalmente un navegador web) y un servidor. Cada uno tiene características y usos específicos. A continuación, se detallan sus diferencias clave:
+
+Método GET
+Envio de Datos en la URL:
+
+Los datos se envían adjuntos a la URL como parámetros de cadena de consulta (query string). Ejemplo: http://example.com/page?name=John&age=30.
+Visibilidad de los Datos:
+
+Los datos son visibles en la URL, lo que puede ser una desventaja en términos de privacidad y seguridad.
+Límite de Datos:
+
+Los navegadores y servidores imponen límites en la longitud de la URL, lo que restringe la cantidad de datos que se pueden enviar. Generalmente, el límite es alrededor de 2048 caracteres.
+Idempotencia:
+
+GET es un método idempotente, lo que significa que múltiples solicitudes idénticas no deben tener efectos secundarios adicionales. Cada vez que se realiza una solicitud GET, el resultado debería ser el mismo.
+Caché:
+
+Las solicitudes GET pueden ser almacenadas en caché por los navegadores y proxies, lo que puede mejorar el rendimiento de las aplicaciones web.
+Marcadores y Compartición:
+
+Las URLs que contienen datos enviados por GET pueden ser guardadas como marcadores y compartidas fácilmente.
+Uso Común:
+
+GET se utiliza principalmente para recuperar datos del servidor sin causar cambios en el estado del servidor. Ejemplo: cargar una página web, buscar información.
+Método POST
+Envio de Datos en el Cuerpo de la Solicitud:
+
+Los datos se envían en el cuerpo de la solicitud HTTP, no en la URL.
+Visibilidad de los Datos:
+
+Los datos no son visibles en la URL, lo que puede ser más seguro para enviar información sensible.
+Límite de Datos:
+
+No hay un límite práctico en la cantidad de datos que se pueden enviar en el cuerpo de una solicitud POST, aunque los servidores pueden imponer sus propios límites.
+Idempotencia:
+
+POST no es un método idempotente. Múltiples solicitudes idénticas pueden tener efectos diferentes, como crear múltiples registros en una base de datos.
+Caché:
+
+Las solicitudes POST no suelen ser almacenadas en caché por navegadores o proxies.
+Marcadores y Compartición:
+
+Las solicitudes POST no pueden ser guardadas como marcadores ni compartidas fácilmente, ya que los datos no están en la URL.
+Uso Común:
+
+POST se utiliza principalmente para enviar datos al servidor para procesarlos, como enviar formularios, cargar archivos, y realizar transacciones que cambian el estado del servidor. Ejemplo: enviar un formulario de registro, realizar una compra en línea.
+Resumen de Diferencias
+Característica	GET	POST
+Envío de datos	En la URL como parámetros de cadena de consulta	En el cuerpo de la solicitud
+Visibilidad de datos	Visible en la URL	No visible en la URL
+Límite de datos	Limitado por la longitud de la URL (~2048 caracteres)	Prácticamente ilimitado
+Idempotencia	Idempotente	No idempotente
+Caché	Puede ser almacenada en caché	No suele ser almacenada en caché
+Marcadores y compartición	Puede ser guardada y compartida fácilmente	No puede ser guardada ni compartida fácilmente
+Uso común	Recuperar datos, navegación	Enviar datos para procesamiento, formularios
+Cuándo Usar GET vs. POST
+Usar GET:
+
+Cuando solo se necesita recuperar datos del servidor.
+Cuando los datos no son sensibles.
+Cuando se espera que la solicitud pueda ser almacenada en caché.
+Cuando se desea que la URL sea guardable como marcador o compartible.
+Usar POST:
+
+Cuando se envían datos sensibles.
+Cuando se envían grandes cantidades de datos.
+Cuando la solicitud debe cambiar el estado del servidor.
+Cuando la solicitud no debe ser almacenada en caché.
+Entender estas diferencias y aplicarlas correctamente es crucial para el diseño eficiente y seguro de aplicaciones web.

@@ -1,0 +1,152 @@
+Guía para Crear un Formulario en Django Usando Forms y Models
+
+Esta guía te ayudará a crear un formulario en Django utilizando "Forms" y "Models", cubriendo los pasos desde la configuración inicial hasta la visualización del formulario en una plantilla:
+
+1. Configuración inicial
+
+    1.1 Asegúrate de tener un proyecto Django configurado. 
+	Si no lo tienes, puedes crear uno con los siguientes comandos:
+
+	django-admin startproject myproject
+	cd myproject
+	python manage.py startapp myapp
+
+
+    1.2 Añade la nueva aplicación myapp al archivo settings.py de tu 	proyecto:
+
+	INSTALLED_APPS = [
+    		# ... otras aplicaciones ...
+    		'myapp',
+	]
+	
+
+2. Definir el Modelo
+    
+    2.1 Crea un modelo en el archivo 'models.py' de tu aplicación. Por ejemplo, vamos a crear un modelo 'Contact':
+
+    
+	# myapp/models.py
+	from django.db import models
+
+	class Contact(models.Model):
+    		name = models.CharField(max_length=100)
+    		email = models.EmailField()
+    		message = models.TextField()
+
+    	def __str__(self):
+        	return self.name
+
+
+    2.2 Ejecuta las migraciones para crear la tabla en la base de datos:
+
+	python manage.py makemigrations
+	python manage.py migrate
+
+
+
+3. Crear el Formulario
+    
+    3.1 Define un formulario basado en el modelo en el archivo 'forms.py' de tu aplicación:
+
+
+	# myapp/forms.py
+	from django import forms
+	from .models import Contact
+
+	class ContactForm(forms.ModelForm):
+    		class Meta:
+        		model = Contact
+        		fields = ['name', 'email', 'message']
+
+
+ 4. Crear la Vista
+
+    4.1 Crea una vista para manejar la lógica del formulario en el archivo 'views.py' de tu aplicación:
+
+    # myapp/views.py
+    from django.shortcuts import render, redirect
+    from .forms import ContactForm
+
+    def contact_view(request):
+    	if request.method == 'POST':
+        	form = ContactForm(request.POST)
+        	if form.is_valid():
+            		form.save()
+            		return redirect('success')  # Redirigir a una página de éxito
+    	else:
+        	form = ContactForm()
+    	return render(request, 'contact.html', {'form': form})
+
+
+5. Crear la Plantilla
+
+    5.1 Crea una plantilla HTML para mostrar el formulario. Por ejemplo, crea un archivo 'contact.html' en la carpeta 'templates' de tu aplicación:
+
+<!-- myapp/templates/contact.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Form</title>
+</head>
+<body>
+    <h1>Contact Us</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+
+
+6. Configurar las URL
+
+    6.1 Añade una URL para la vista del formulario en el archivo 'urls.py' de tu aplicación:
+
+# myapp/urls.py
+from django.urls import path
+from .views import contact_view
+
+urlpatterns = [
+    path('contact/', contact_view, name='contact'),
+    path('success/', TemplateView.as_view(template_name='success.html'), name='success'),  # Vista de éxito
+]
+
+    6.2 Incluir las URLs de tu aplicación en el archivo urls.py principal del proyecto:
+
+# myproject/urls.py
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('myapp.urls')),
+]
+
+
+7. Crear una Vista de Éxito
+
+    7.1 Puedes crear una simple vista de éxito para redirigir después de enviar el formulario:
+
+<!-- myapp/templates/success.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Success</title>
+</head>
+<body>
+    <h1>Form Submitted Successfully!</h1>
+    <a href="{% url 'contact' %}">Go back to the form</a>
+</body>
+</html>
+
+
+8.  Probar el Formulario
+
+    8.1 Inicia el servidor de desarrollo y visita la página del formulario para probarlo:
+
+python manage.py runserver
+
+    8.2 Visita http://localhost:8000/contact/ para ver y probar el formulario.
